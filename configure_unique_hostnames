@@ -4,7 +4,7 @@ HOST=`perl -e 'open IN, "</usr/share/dict/words";rand($.) < 1 && ($n=$_) while <
 DOMAIN=`perl -e 'open IN, "</usr/share/dict/words";rand($.) < 1 && ($n=$_) while <IN>;$n=~s/'\''//g;print lc($n)'`
 echo "New selected hostname is $HOST.$DOMAIN.com..."
 
-# Search/Repace hosts temp construct (template simply has strings HOST and DOMAIN in appropriate spots)
+# Search/Replace hosts temp construct (template simply has strings HOST and DOMAIN in appropriate spots)
 cp /etc/hosts.template /etc/hosts
 sed -i 's/HOST/'$HOST'/g' /etc/hosts
 sed -i 's/DOMAIN/'$DOMAIN'/g' /etc/hosts
@@ -12,7 +12,7 @@ sed -i 's/DOMAIN/'$DOMAIN'/g' /etc/hosts
 # Create a new hostname file
 echo "$HOST.$DOMAIN.com" > /etc/hostname
 
-# Clean up old hostname stuff, doesn't break anything but probably inefficient
+# Clean up old hostname stuff
 rm -rf /home/username/.kde/tmp*
 rm -rf /home/username/.kde/socket*
 rm -rf /home/username/.kde/cache*
