@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#Use random dictionary words to create a unique hostname / domain name combo for each Linux guest VM. $Hostname.$Domain.com
 HOST=`perl -e 'open IN, "</usr/share/dict/words";rand($.) < 1 && ($n=$_) while <IN>;$n=~s/'\''//g;print lc($n)'`
 DOMAIN=`perl -e 'open IN, "</usr/share/dict/words";rand($.) < 1 && ($n=$_) while <IN>;$n=~s/'\''//g;print lc($n)'`
 echo "New selected hostname is $HOST.$DOMAIN.com..."
@@ -12,7 +13,7 @@ sed -i 's/DOMAIN/'$DOMAIN'/g' /etc/hosts
 # Create a new hostname file
 echo "$HOST.$DOMAIN.com" > /etc/hostname
 
-# Clean up old hostname stuff
+# Clean up old hostname information
 rm -rf /home/username/.kde/tmp*
 rm -rf /home/username/.kde/socket*
 rm -rf /home/username/.kde/cache*
