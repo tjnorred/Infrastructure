@@ -1,19 +1,28 @@
 #!/bin/bash
 
-#Use random dictionary words to create a unique hostname / domain name combo for each Linux guest VM. $Hostname.$Domain.com
-HOST=`perl -e 'open IN, "</usr/share/dict/words";rand($.) < 1 && ($n=$_) while <IN>;$n=~s/'\''//g;print lc($n)'`
-DOMAIN=`perl -e 'open IN, "</usr/share/dict/words";rand($.) < 1 && ($n=$_) while <IN>;$n=~s/'\''//g;print lc($n)'`
-echo "New selected hostname is $HOST.$DOMAIN.com..."
+###################################################################
+#Script Name	: Configure Unique Hostnames
+#Description	: Generate unique hostnames for nonpersistent desktops
+#Args           :
+#Author       	: TJ Norred
+#Email         	: tjnorred@gmail.com
+###################################################################
 
-# Search/Replace hosts temp construct (template simply has strings HOST and DOMAIN in appropriate spots)
-cp /etc/hosts.template /etc/hosts
-sed -i 's/HOST/'$HOST'/g' /etc/hosts
-sed -i 's/DOMAIN/'$DOMAIN'/g' /etc/hosts
+
+# Generate the random word from /dict/words
+get_word () { 
+	echo `shuf -n1 /usr/share/dict/words` 
+}
+
+# Generate the hostname
+get_hostname () {
+	host=$(get_word)
+	domain=$(get_word)
+	hostname="$host.$domain.com"
+	echo "The newly selected hostname is $hostname . . . "
+}
+
+get_hostname
 
 # Create a new hostname file
-echo "$HOST.$DOMAIN.com" > /etc/hostname
-
-# Clean up old hostname information
-rm -rf /home/username/.kde/tmp*
-rm -rf /home/username/.kde/socket*
-rm -rf /home/username/.kde/cache*
+echo $hostname > /etc/hostname
