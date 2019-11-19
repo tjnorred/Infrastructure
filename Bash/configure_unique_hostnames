@@ -9,19 +9,19 @@
 ###################################################################
 
 
-# Generate the random word from /dict/words
-get_word () { 
-	echo `shuf -n1 /usr/share/dict/words` 
+# Generate the random word from /dict/words and strip 's from the word if present
+# if the file is not found then you need to install wamerican ex. apt-get install wamerican
+get_word () {
+	echo `shuf -n1 /usr/share/dict/words | sed "s/'.*//"`
 }
 
 # Generate the hostname
 get_hostname () {
-	host=$(get_word)
+host=$(get_word)
 	domain=$(get_word)
 	hostname="$host.$domain.com"
 	echo "The newly selected hostname is $hostname . . . "
-}
-
+	}
 get_hostname
 
 # Create a new hostname file
