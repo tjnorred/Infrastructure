@@ -21,7 +21,8 @@ host=$(get_word)
 	domain=$(get_word)
 	hostname="$host.$domain.com"
 	echo "The newly selected hostname is $hostname . . . "
-	}
+}
+
 get_hostname
 
 # Create a new hostname file
