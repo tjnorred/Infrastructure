@@ -14,13 +14,13 @@ Vagrant.configure("2") do |config|
 
    config.vm.provision "shell", inline: <<-SHELL
      apt update
-	 apt install make
+     apt install make gcc
      wget http://download.redis.io/releases/redis-5.0.7.tar.gz
      tar xzf redis-5.0.7.tar.gz
      cd redis-5.0.7/deps
-	 make hiredis jemalloc linenoise lua geohash-int #need to make dependencies first or it throws error
-	 cd ..
-	 make
-	 #src/redis-server #starts the redis server
+     make hiredis jemalloc linenoise lua geohash-int #need to make dependencies first or it throws error
+     cd ..
+     make
+     #src/redis-server #starts the redis server
    SHELL
 end
