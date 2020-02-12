@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "private_network", ip: "#.#.#.#"
+  
+  config.vm.provider "virtualbox" do |vb|
+	vb.name = "Redis-Cache01"
+	vb.cpus = 2
+	vb.memory = 2048
+	
+   end
+
+   config.vm.provision "shell", inline: <<-SHELL
+     apt update
+	 apt install make
+     wget http://download.redis.io/releases/redis-5.0.7.tar.gz
+     tar xzf redis-5.0.7.tar.gz
+     cd redis-5.0.7/deps
+	 make hiredis jemalloc linenoise lua geohash-int #need to make dependencies first or it throws error
+	 cd ..
+	 make
+	 #src/redis-server #starts the redis server
+   SHELL
+end
