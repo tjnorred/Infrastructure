@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "public_network"
+  config.vm.synced_folder "F:\\Media", "/media"
+  
+  config.vm.provider "virtualbox" do |vb|
+	vb.name = "Plex"
+	vb.cpus = 2
+	vb.memory = "2048"
+  end
+
+   config.vm.provision "shell", inline: <<-SHELL
+     
+	 echo deb https://downloads.plex.tv/repo/deb public main | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
+	 curl https://downloads.plex.tv/plex-keys/PlexSign.key | sudo apt-key add -
+	 apt-get update
+	 yes | apt-get install plexmediaserver #yes will install the new version
+
+   SHELL
+end
