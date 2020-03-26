@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/opensuse15"
+
+  config.vm.provider "virtualbox" do |vb|
+	vb.name = "RedSuse01"
+	vb.cpus = 2
+	vb.memory = 2048
+	
+   end
+ 
+   config.vm.provision "shell", inline: <<-SHELL
+     zypper up
+     wget http://download.redis.io/releases/redis-5.0.7.tar.gz
+     tar xzf redis-5.0.7.tar.gz
+     make
+     src/redis-server #starts the redis server
+   SHELL
+end
